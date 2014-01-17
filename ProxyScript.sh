@@ -4,6 +4,13 @@ function setproxy(){
   do
     export $env=$1
   done
+
+  # add default no proxy
+  NO_PROXY_ENV="no_proxy NO_PROXY"
+  for env in $NO_PROXY_ENV
+  do
+    export $env=$2
+  done
 }
 
 function proxyon(){
@@ -30,7 +37,7 @@ SCRIPT
 }
 
 function proxyoff(){
-    setproxy ""
+    setproxy "" ""
 
 sudo sh <<SCRIPT
 
