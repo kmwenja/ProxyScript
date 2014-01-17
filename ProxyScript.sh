@@ -1,9 +1,14 @@
+function setproxy(){
+  PROXY_ENV="http_proxy ftp_proxy https_proxy socks_proxy all_proxy HTTP_PROXY HTTPS_PROXY FTP_PROXY SOCKS_PROXY ALL_PROXY"
+  for env in $PROXY_ENV
+  do
+    export $env=$1
+  done
+}
+
 function proxyon(){
-  export http_proxy=http://$1:$2@$3:$4
-  export ftp_proxy=$http_proxy
-  export https_proxy=$http_proxy
-  export socks_proxy=$http_proxy
-  export all_proxy=$http_proxy
+  proxy_value=http://$1:$2@$3:$4
+  setproxy $proxy_value
 
 sudo sh <<SCRIPT
     # aptitude proxy settings
@@ -25,11 +30,7 @@ SCRIPT
 }
 
 function proxyoff(){
-  unset http_proxy
-  unset https_proxy
-  unset ftp_proxy
-  unset socks_proxy
-  unset all_proxy
+    setproxy ""
 
 sudo sh <<SCRIPT
 
