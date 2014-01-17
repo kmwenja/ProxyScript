@@ -15,7 +15,7 @@ function setproxy(){
 
 function proxyon(){
   proxy_value=http://$1:$2@$3:$4
-  setproxy $proxy_value
+  setproxy $proxy_value $5
 
 sudo sh <<SCRIPT
     # aptitude proxy settings
@@ -37,7 +37,7 @@ SCRIPT
 }
 
 function proxyoff(){
-    setproxy "" ""
+    setproxy
 
 sudo sh <<SCRIPT
 
