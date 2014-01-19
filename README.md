@@ -8,14 +8,30 @@ Configures aptitude, ssh and adds proxy environment variables.
 Usage
 -----
 
-1. Add ```source ProxyScript``` to .bashrc
-2. Set proxy settings using ```proxyon <username> <password> <host> <port>``` or
-    add a bash function to do that for you eg
-```
-    function myproxy(){
-        proxyon <username> <password> <host> <port>
-    }
-```
-3. For ssh, you need to add ```ssh-config-proxy``` and ```ssh-config-no-proxy``` to .ssh
-4. Run ```source .bashrc``` to install everything or restart your terminal.
-5. Run ```proxyon``` to activate and ```proxyoff``` to deactivate.
+*These instructions and the script are for linux use only, preferrably Ubuntu*
+
+### Installing
+
+1. Download the repo to a location on your computer
+2. Add ```source /path/to/ProxyScript.sh``` to your ```.bashrc``` file.
+3. To accomodate ssh, you need to add
+    * ```~/.ssh/ssh-config-proxy``` for ssh settings to use when behind the proxy
+    * ```~/.ssh/ssh-config-no-proxy``` for ssh settings to use when not behind the proxy
+4. To enable the ProxyScript to start its work, run ```$ source .bashrc```
+
+
+### Runnning
+
+* Run ```$ proxyon <username> <password> <host> <port> <proxyless-domains>``` when behind a proxy
+    * Replace the parameters in ```<...>``` with their equivalent values eg
+    ```$ proxyon me pwd myproxy.com 80 localhost,127.0.0.1```
+    * The proxyless-domains parameter is a list of domains/urls/ip that should not
+    be proxied
+    * To reduce all this *typing at prompt work*, you can add the following to ```.bashrc```
+    ```
+        function myproxy(){
+            proxyon <username> <password> <host> <port> <proxyless-domains>
+        }
+    ```
+    *make sure to replace the ```<...>``` parameters with their equivalent values*
+* Run ```$ proxyoff``` when not behind a proxy
