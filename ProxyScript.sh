@@ -17,8 +17,23 @@ SCRIPT
 
 function setsshproxy(){
     # ssh proxy settings
-    if [ -e "$HOME/.ssh/ssh-config-proxy" ]; then
-        cat $HOME/.ssh/ssh-config-proxy > $HOME/.ssh/config 
+    ssh_config=$HOME/.ssh/config
+    if [ -e "$ssh_config" ]; then
+        proxy_command="ProxyCommand corkscrew $1 $2 %h %p\n"
+
+        # backup ssh config
+        tmp=$(mktemp) || (echo "Failed to make temp file" && return)
+
+        cat $ssh_config > $tmp
+
+        # add proxycommand to head of file because that's how it works with 
+        # all host configs
+        echo -e $proxy_command > $ssh_config
+
+        cat $tmp >> $ssh_config
+
+        # clean up
+        rm -f $tmp
     fi
 }
 
@@ -41,7 +56,7 @@ function proxyon(){
   proxy_value=http://$1:$2@$3:$4
   setenvproxy $proxy_value $5
   setaptproxy $proxy_value
-  setsshproxy
+  setsshproxy $3 $4
 }
 
 function unsetenvproxy(){
@@ -59,8 +74,13 @@ SCRIPT
 
 function unsetsshproxy(){
     # remove ssh proxy settings
-    if [ -e "$HOME/.ssh/ssh-config-no-proxy" ]; then
-        cat $HOME/.ssh/ssh-config-no-proxy > $HOME/.ssh/config
+    if [ -e "$HOME/.ssh/config" ]; then
+        # using tmp file since tail cannot redirect output to the same
+        # file it's 'tailing'
+        tmp=$(mktemp) || (echo "Failed to make temp file" && return)
+        tail -n +3 $HOME/.ssh/config > $tmp
+        cat $tmp > $HOME/.ssh/config
+        rm -f $tmp
     fi
 }
 
