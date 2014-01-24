@@ -15,7 +15,7 @@ sudo sh <<SCRIPT
 SCRIPT
 }
 
-function setgitproxy(){
+function setsshproxy(){
     # ssh proxy settings
     if [ -e "$HOME/.ssh/ssh-config-proxy" ]; then
         cat $HOME/.ssh/ssh-config-proxy > $HOME/.ssh/config 
@@ -41,7 +41,7 @@ function proxyon(){
   proxy_value=http://$1:$2@$3:$4
   setenvproxy $proxy_value $5
   setaptproxy $proxy_value
-  setgitproxy
+  setsshproxy
 }
 
 function unsetenvproxy(){
@@ -57,7 +57,7 @@ sudo sh <<SCRIPT
 SCRIPT
 }
 
-function unsetgitproxy(){
+function unsetsshproxy(){
     # remove ssh proxy settings
     if [ -e "$HOME/.ssh/ssh-config-no-proxy" ]; then
         cat $HOME/.ssh/ssh-config-no-proxy > $HOME/.ssh/config
@@ -67,7 +67,7 @@ function unsetgitproxy(){
 function proxyoff(){
     unsetenvproxy
     unsetaptproxy
-    unsetgitproxy
+    unsetsshproxy
 }
 
 function proxystatus(){
