@@ -14,10 +14,7 @@ Usage
 
 1. Download the repo to a location on your computer
 2. Add ```source /path/to/ProxyScript.sh``` to your ```.bashrc``` file.
-3. To accomodate ssh, you need to add
-    * ```~/.ssh/ssh-config-proxy``` for ssh settings to use when behind the proxy
-    * ```~/.ssh/ssh-config-no-proxy``` for ssh settings to use when not behind the proxy
-4. To enable the ProxyScript to start its work, run ```$ source .bashrc```
+3. To enable the ProxyScript to start its work, run ```$ source .bashrc```
 
 
 ### Runnning
